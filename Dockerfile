@@ -146,7 +146,7 @@ RUN --mount=type=cache,target=/root/.cache,sharing=locked,id=cache-$TARGETARCH$T
 RUN --mount=type=cache,target=/root/.cache,sharing=locked,id=cache-$TARGETARCH$TARGETVARIANT \
      echo "[+] Installing Python dependencies via uv..." \
      && ( \
-        uv sync --all-extras --locked --no-dev \
+        uv sync --all-extras --no-dev \
         && which playwright \
         && playwright --version \
         && echo -e '\n\n' \
