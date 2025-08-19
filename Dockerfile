@@ -154,7 +154,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=apt-$TARGETARCH$T
     --mount=type=cache,target=/root/.cache,sharing=locked,id=cache-$TARGETARCH$TARGETVARIANT \
     echo "[+] Installing chromium apt pkgs and binary to /root/.cache/ms-playwright..." \
     && apt-get update -qq \
-    && playwright install --with-deps --no-shell chromium \
+    && /app/.venv/bin/playwright install --with-deps --no-shell chromium \
     && rm -rf /var/lib/apt/lists/* \
     && export CHROME_BINARY="$(python -c 'from playwright.sync_api import sync_playwright; print(sync_playwright().start().chromium.executable_path)')" \
     && ln -s "$CHROME_BINARY" /usr/bin/chromium-browser \
