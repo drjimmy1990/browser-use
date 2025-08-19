@@ -152,7 +152,8 @@ RUN --mount=type=cache,target=/root/.cache,sharing=locked,id=cache-$TARGETARCH$T
 # Install Chromium using playwright
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=apt-$TARGETARCH$TARGETVARIANT \
     --mount=type=cache,target=/root/.cache,sharing=locked,id=cache-$TARGETARCH$TARGETVARIANT \
-    echo "[+] Installing chromium apt pkgs and binary to /root/.cache/ms-playwright..." \
+    echo "-----> USING LATEST VERSION OF DOCKERFILE <-----" \
+    && echo "[+] Installing chromium apt pkgs and binary to /root/.cache/ms-playwright..." \
     && apt-get update -qq \
     && /app/.venv/bin/playwright install --with-deps --no-shell chromium \
     && rm -rf /var/lib/apt/lists/* \
