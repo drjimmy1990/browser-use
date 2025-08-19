@@ -155,18 +155,15 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked,id=apt-$TARGETARCH$T
     echo "-----> USING LATEST VERSION OF DOCKERFILE <-----" \
     && echo "[+] Installing chromium apt pkgs and binary to /root/.cache/ms-playwright..." \
     && apt-get update -qq \
-    && . $VENV_DIR/bin/activate && pip install playwright \
-    && python -m playwright install --with-deps --no-shell chromium \
+    && $VENV_DIR/bin/pip install playwright \
+    && $VENV_DIR/bin/python -m playwright install --with-deps --no-shell chromium \
     && rm -rf /var/lib/apt/lists/* \
-    && export CHROME_BINARY="$(python -c 'from playwright.sync_api import sync_playwright; print(sync_playwright().start().chromium.executable_path)')" \
+    && export CHROME_BINARY="$($VENV_DIR/bin/python -c 'from playwright.sync_api import sync_playwright; print(sync_playwright().start().chromium.executable_path)')" \
     && ln -s "$CHROME_BINARY" /usr/bin/chromium-browser \
     && ln -s "$CHROME_BINARY" /app/chromium-browser \
     && mkdir -p "/home/${BROWSERUSE_USER}/.config/chromium/Crash Reports/pending/" \
     && chown -R "$BROWSERUSE_USER:$BROWSERUSE_USER" "/home/${BROWSERUSE_USER}/.config" \
-    && ( \
-        which chromium-browser && /usr/bin/chromium-browser --version \
-        && echo -e '\n\n' \
-    ) | tee -a /VERSION.txt
+    && ( which chromium-browser && /usr/bin/chromium-browser --version && echo -e '\n\n' ) | tee -a /VERSION.txt
 # Copy the rest of the browser-use codebase
 
 # Final ownership and permissions check
