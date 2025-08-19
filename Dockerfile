@@ -145,12 +145,7 @@ RUN --mount=type=cache,target=/root/.cache,sharing=locked,id=cache-$TARGETARCH$T
 # Install all Python dependencies using uv from the lock file
 RUN --mount=type=cache,target=/root/.cache,sharing=locked,id=cache-$TARGETARCH$TARGETVARIANT \
      echo "[+] Installing Python dependencies via uv..." \
-     && ( \
-        uv sync --all-extras --no-dev \
-        && which playwright \
-        && playwright --version \
-        && echo -e '\n\n' \
-     ) | tee -a /VERSION.txt
+     && uv sync --all-extras --no-dev
 
 # >>>>>>>>>>>>>>>>>>>> END: MODIFIED SECTION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
